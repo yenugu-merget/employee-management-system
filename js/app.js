@@ -1,5 +1,3 @@
-console.log("app.js loaded");
-
 const employees = [
     {
         id: "EMP101",
@@ -52,31 +50,111 @@ const employees = [
     }
 ];
 
-function loadEmployees() {
+const SEARCHABLE_FIELDS = ["id", "name", "department", "designation", "email"];
 
-    document.getElementById("count").innerHTML = employees.length;
+let employeesLoaded = false;
 
+function normalizeQuery(query) {
+    return query.trim().toLowerCase();
+}
+
+function employeeMatchesQuery(employee, normalizedQuery) {
+    return SEARCHABLE_FIELDS.some(function (field) {
+        const value = employee[field];
+        if (value == null) {
+            return false;
+        }
+        return String(value).toLowerCase().includes(normalizedQuery);
+    });
+}
+
+function searchEmployees(query) {
+    const normalizedQuery = normalizeQuery(query);
+
+    if (!normalizedQuery) {
+        return employees.slice();
+    }
+
+    return employees.filter(function (emp) {
+        return employeeMatchesQuery(emp, normalizedQuery);
+    });
+}
+
+function formatEmployee(emp) {
+    return (
+        emp.id +
+        " | " +
+        emp.name +
+        " | " +
+        emp.department +
+        " | " +
+        emp.designation +
+        " | " +
+        emp.email
+    );
+}
+
+function updateEmployeeCount(count) {
+    document.getElementById("count").textContent = count;
+}
+
+function renderEmployeeList(employeeSubset, query) {
     const list = document.getElementById("employeeList");
+    const noResults = document.getElementById("noResults");
+    const clearBtn = document.getElementById("clearSearch");
 
     list.innerHTML = "";
+    noResults.hidden = true;
+    noResults.textContent = "";
 
-    employees.forEach(function(emp){
-
+    employeeSubset.forEach(function (emp) {
         const li = document.createElement("li");
-
-        li.innerHTML =
-            emp.id +
-            " | " +
-            emp.name +
-            " | " +
-            emp.department +
-            " | " +
-            emp.designation +
-            " | " +
-            emp.email;
-
+        li.textContent = formatEmployee(emp);
         list.appendChild(li);
-
     });
 
+    if (employeeSubset.length === 0 && normalizeQuery(query || "")) {
+        noResults.hidden = false;
+        noResults.textContent = "No employees found matching \"" + query.trim() + "\".";
+    }
+
+    clearBtn.hidden = !normalizeQuery(query || "");
 }
+
+function handleSearchInput() {
+    if (!employeesLoaded) {
+        return;
+    }
+
+    const query = document.getElementById("searchInput").value;
+    const filtered = searchEmployees(query);
+
+    renderEmployeeList(filtered, query);
+    updateEmployeeCount(filtered.length);
+}
+
+function clearSearch() {
+    const searchInput = document.getElementById("searchInput");
+    searchInput.value = "";
+    handleSearchInput();
+    searchInput.focus();
+}
+
+function loadEmployees() {
+    employeesLoaded = true;
+
+    const searchInput = document.getElementById("searchInput");
+    searchInput.disabled = false;
+    searchInput.value = "";
+
+    renderEmployeeList(employees, "");
+    updateEmployeeCount(employees.length);
+    searchInput.focus();
+}
+
+function initSearch() {
+    document.getElementById("searchInput").addEventListener("input", handleSearchInput);
+    document.getElementById("clearSearch").addEventListener("click", clearSearch);
+}
+
+document.addEventListener("DOMContentLoaded", initSearch);
