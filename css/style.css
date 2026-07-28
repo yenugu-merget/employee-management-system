@@ -16,6 +16,47 @@ button{
     cursor:pointer;
 }
 
+.search-row{
+    margin-top:16px;
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    gap:8px;
+}
+
+.search-row label{
+    font-weight:bold;
+}
+
+#searchInput{
+    flex:1;
+    min-width:180px;
+    padding:8px 10px;
+    border:1px solid #ccc;
+    border-radius:4px;
+}
+
+#searchInput:focus{
+    outline:none;
+    border-color:#666;
+}
+
+#searchInput:disabled{
+    background:#f0f0f0;
+    cursor:not-allowed;
+}
+
+.clear-btn{
+    padding:8px 12px;
+    font-size:14px;
+}
+
+.no-results{
+    margin:12px 0 0;
+    color:#666;
+    font-style:italic;
+}
+
 li{
     margin:8px 0;
 }
