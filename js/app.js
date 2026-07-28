@@ -4,7 +4,10 @@ const employees=[
     "Sanjay",
     "John",
     "David",
-    "Anita"
+    "Anita",
+    "Miraj",
+    "Akash",
+    "Dev",
 ];
 
 document.getElementById("count").innerHTML=employees.length;
