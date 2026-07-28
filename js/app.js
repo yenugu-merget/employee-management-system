@@ -1,32 +1,4 @@
-
 console.log("app.js loaded");
-
-function loadEmployees() {
-
-    document.getElementById("count").innerHTML = employees.length;
-
-    const list = document.getElementById("employeeList");
-
-    list.innerHTML = "";
-
-    employees.forEach(function(emp){
-
-        const li = document.createElement("li");
-
-        li.innerHTML =
-            emp.id +
-            " | " +
-            emp.name +
-            " | " +
-            emp.department +
-            " | " +
-            emp.designation;
-
-        list.appendChild(li);
-
-    });
-
-}
 
 const employees = [
     {
@@ -79,3 +51,32 @@ const employees = [
         email: "dev@company.com"
     }
 ];
+
+function loadEmployees() {
+
+    document.getElementById("count").innerHTML = employees.length;
+
+    const list = document.getElementById("employeeList");
+
+    list.innerHTML = "";
+
+    employees.forEach(function(emp){
+
+        const li = document.createElement("li");
+
+        li.innerHTML =
+            emp.id +
+            " | " +
+            emp.name +
+            " | " +
+            emp.department +
+            " | " +
+            emp.designation +
+            " | " +
+            emp.email;
+
+        list.appendChild(li);
+
+    });
+
+}
