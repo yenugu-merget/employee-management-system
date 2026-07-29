@@ -47,6 +47,13 @@ const employees = [
         department: "DevOps",
         designation: "DevOps Engineer",
         email: "dev@company.com"
+    },
+    {
+        id: "EMP108",
+        name: "Mahendra",
+        department: "ProdQA",
+        designation: "Engineer",
+        email: "Mahendra@company.com"
     }
 ];
 
